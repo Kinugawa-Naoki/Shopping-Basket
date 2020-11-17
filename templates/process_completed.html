@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock head %}
+
+{% block content%}
+<div class="container">
+    {% if Message == '仮登録が完了しました' or Message == 'メールの送信が完了しました' %}
+        <h2>{{ message }}</h2>
+        <p></p>
+    {% elif Message == 'メールアドレスの認証が完了しました' %}
+        <h2>{{ message }}</h2>
+        <p></p>
+    {% endif %}
+</div>
+{% endblock content %}
