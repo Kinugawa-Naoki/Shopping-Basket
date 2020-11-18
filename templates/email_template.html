@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock head %}
+
+{% block content%}
+<div class="bg-light">
+    <div class="container">
+        <p>{{ email }} 様</p>
+        <b>「買い物かご」に会員登録申し込みをしていただき，ありがとうございます。</b>
+        <p>現在，仮登録の状態ですので，下記URLをクリックして登録を完了させてください。<br>
+            【登録を完了させるにはこちらから】<br>
+            <a href="http://localhost:8000/account/verify_email/{{ uuid }}">http://localhost:8000/account/verify_email/{{ uuid }}</a><br>
+            ※仮登録の有効期間は1時間となっております。<br>
+            　有効期限を過ぎますと上記URLからは本登録手続きができなくなります。<br>
+            　その際はお手数ですが、再度お申し込みをお願いします。<br>
+        </p>
+        <hr>
+        <p>
+            お問い合わせ：naoki.kinugawa@gmail.com
+        </p>
+    </div>
+</div>
+{% endblock content %}

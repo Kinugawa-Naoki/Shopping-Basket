@@ -1,24 +1,27 @@
 {% extends 'base.html' %}
 
 {% block head %}
+<title>ユーザー登録｜買い物かご</title>
 {% endblock head %}
 
 {% block content%}
 <div class="container">
-    <form method="POST" action="">
-        {% csrf_token %}
-        {% for item in signup_form %}
-            {% if item.label == '利用規約に同意する' %}
-                <div class="text-center"><a href="{% url 'terms' %}">利用規約</a>に同意します　{{ item }}</div>
-            {% else %}
-            {{ item.label }}
-            {{ item }}<br>
-            {% endif %}
-        {% endfor %}
-        <p class="text-danger">{{ Error }}</p>
-        <div class="text-center">
-            <input type="submit" class="btn btn-outline-dark" value="ユーザー登録する">
-        </div>
-    </form> 
+    <div class="mx-auto" style="width: 300px;">
+        <form method="POST" action="">
+            {% csrf_token %}
+            {% for item in signup_form %}
+                {% if item.label == '利用規約に同意する' %}
+                    <div class="text-center"><a href="{% url 'terms' %}">利用規約</a>に同意します　{{ item }}</div>
+                {% else %}
+                    {{ item.label }}
+                    {{ item }}<br>
+                {% endif %}
+            {% endfor %}
+            <p class="text-danger">{{ Error }}</p>
+            <div class="text-center">
+                <input type="submit" class="btn btn-outline-dark" value="ユーザー登録する">
+            </div>
+        </form> 
+    </div>
 </div>
 {% endblock content %}

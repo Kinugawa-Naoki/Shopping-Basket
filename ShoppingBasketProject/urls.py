@@ -4,5 +4,5 @@ from django.urls.conf import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('basket.urls'))
+    path('', include('basket.index_urls'))
 ]
