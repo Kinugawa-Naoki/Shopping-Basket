@@ -15,6 +15,9 @@
     {% elif Error == 'セッションの有効期限が切れました' %}
         <h2 class="text-danger">{{ Error }}</h2>
         <p></p>
+    {% elif Message == 'パスワードの変更が完了しました' %}
+        <h2>{{ Message }}</h2>
+        <p></p>
     {% endif %}
 </div>
 {% endblock content %}

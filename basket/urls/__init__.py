@@ -1,1 +1,2 @@
-from . import account_urls
+from . import urls_account
+from . import urls_stock

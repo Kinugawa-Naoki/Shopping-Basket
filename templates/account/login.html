@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>ログイン｜買い物かご</title>
+{% endblock head %}
+
+{% block content%}
+<div class="container">
+    <div class="mx-auto" style="width: 300px;">
+        <form method="POST" action="">
+            {% csrf_token %}
+            {% for item in login_form %}
+                {{ item.label }}
+                {{ item }}<br>
+            {% endfor %}
+            <p class="text-center text-danger">{{ Error }}</p>
+            <div class="text-center">
+                <input type="submit" class="btn btn-outline-primary" value="ログイン">
+            </div>
+        </form> 
+    </div>
+</div>
+{% endblock content %}

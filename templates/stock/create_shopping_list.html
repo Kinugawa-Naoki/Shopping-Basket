@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="m-auto" style="width: 300px;">
+        <div class="alert alert-primary">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ forms.list_name.label }}
+                {{ forms.list_name }}<br>
+                <input type="submit" value="リストの内容を作成する" class="btn btn-success">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -129,7 +129,7 @@ EMAIL_HOST = 'smtp.googlemail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = '587'
 
-
+LOGIN_URL = '/account/login/'
 
 try:
     from .local_settings import *
