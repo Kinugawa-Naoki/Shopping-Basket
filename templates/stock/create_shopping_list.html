@@ -7,6 +7,9 @@
                 {% csrf_token %}
                 {{ forms.list_name.label }}
                 {{ forms.list_name }}<br>
+                {% if Error_Name %}
+                <p>「{{ Error_Name }}」は既に存在します。</p>
+                {% endif %}
                 <input type="submit" value="リストの内容を作成する" class="btn btn-success">
             </form>
         </div>

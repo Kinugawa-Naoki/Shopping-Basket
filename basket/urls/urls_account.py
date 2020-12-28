@@ -11,5 +11,5 @@ urlpatterns = [
     # 利用規約
     path('terms/', termsfunc, name='terms'),
     # メール認証
-    path('verify_email/<uuid:uuid>/', verifyfunc, name='verify_email'),
+    path('create_user/<uuid:uuid>/', create_userfunc, name='create_user'),
 ]

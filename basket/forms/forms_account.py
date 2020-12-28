@@ -23,6 +23,19 @@ class SignupForm(forms.Form):
         required=True,
         )
 
+# パスワード入力フォーム
+class CreatePassForm(forms.Form):
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class':'form-control text-secondary text-center', 'name':'password'}),
+        label='パスワード',
+        max_length=100
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class':'form-control text-secondary text-center', 'name':'password2'}),
+        label='パスワード（再入力）',
+        max_length=100
+    )
+
 # ログイン用フォーム
 class LoginForm(forms.Form):
     user_id = forms.CharField(
