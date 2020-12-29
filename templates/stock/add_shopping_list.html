@@ -1,18 +1,22 @@
 {% extends 'base.html' %}
+
+{% block head %}
+<title>商品追加画面｜買い物かご</title>
+{% endblock head %}
+
 {% block content %}
 <form action="" method="POST">
     {% csrf_token %}
     <div class="card-body">
         <div class="form-group" id="list">
-            {{ forms.list_name }}
             <div class="alert alert-dark">
                 <br>
+                {{ forms.list_name.label }}<br>
+                {{ forms.list_name }}<br><hr>
                 {{ forms.name.label }}<br>
                 {{ forms.name }}<br>
                 {{ forms.quantity.label }}<br>
                 {{ forms.quantity }}<br>
-                {{ forms.memo.label }}<br>
-                {{ forms.memo }}<br><hr>
             </div>
         </div>
         <input type="submit" class="btn btn-success" value="登録する">

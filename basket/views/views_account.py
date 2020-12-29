@@ -58,10 +58,11 @@ def temp_signupfunc(request):
             user_id = signup_form.cleaned_data.get('user_id')
             email = signup_form.cleaned_data.get('email')
             try:
-                # 重複するuser_idが存在しないか確認する
+                # 重複するuser_id, emailが存在しないか確認する
                 User.objects.get(username=user_id)
+                User.objects.get(email=email)
                 return render(request,'account/signup.html', {'signup_form':signup_form, 'Error':'このユーザーはすでに登録されています'})
-            except:
+            except KeyError:
                 # メールを送信する
                 if send_verify_mail(user_id, email):
                     return render(request, 'process_completed.html', {'Message':'仮登録が完了しました'})
@@ -124,17 +125,18 @@ def create_userfunc(request, uuid):
         pass_form = CreatePassForm(request.POST)
         # POSTの時
         if request.method == 'POST':
-            password = pass_form.cleaned_data.get('password')
-            password2 = pass_form.cleaned_data.get('password2')
-            # パスワードが一致するか確認
-            if password != password2:
-                return render(request, 'create_user.html', {'pass_form':pass_form, 'Message':'パスワードが一致しません'})
-            # ユーザーを作成
-            User.objects.create_user(model.user_id, model.email, password)
-            # UserProfile を削除
-            model.delete()
-            # 使い方ページに飛ぶ
-            return redirect('how_to_use') # 未完成
+            if pass_form.is_valid():
+                password = pass_form.cleaned_data.get('password')
+                password2 = pass_form.cleaned_data.get('password2')
+                # パスワードが一致するか確認
+                if password != password2:
+                    return render(request, 'create_user.html', {'pass_form':pass_form, 'Message':'パスワードが一致しません'})
+                # ユーザーを作成
+                User.objects.create_user(model.user_id, model.email, password)
+                # UserProfile を削除
+                model.delete()
+                # 使い方ページに飛ぶ
+                return redirect('how_to_use') # 未完成
         # GETの時
         else:
             if verify_address(uuid):
