@@ -15,10 +15,10 @@ class Shopping_ListModel(models.Model):
         )
     created_date = models.DateTimeField(
         default=datetime.now()
-    )
+        )
     modified_date = models.DateTimeField(
         default=datetime.now()
-    )
+        )
 
     def __str__(self):
         return self.list_name
@@ -27,7 +27,7 @@ class Shopping_ListModel(models.Model):
 
 class ProductModel(models.Model):
     list_name = models.ForeignKey(
-        'Shopping_ListModel',
+        Shopping_ListModel,
         on_delete=models.CASCADE
         )
     name = models.CharField(
@@ -38,6 +38,6 @@ class ProductModel(models.Model):
         )
 
     def __str__(self):
-        return self.list_name 
+        return self.name
     class Meta:
         verbose_name = 'リスト項目'

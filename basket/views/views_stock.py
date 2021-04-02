@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from ..forms.forms_stock import Shopping_ListForm, ProductForm
 from ..models.models_stock import Shopping_ListModel, ProductModel
-from datetime import datetime
+
 
 # 本サービスの使い方
 def how_to_usefunc(request):
@@ -10,8 +10,16 @@ def how_to_usefunc(request):
 # 買い物リストを表示する
 def shopping_listfunc(request):
     user_id = request.user
-    models = Shopping_ListModel.objects.filter(user_id=user_id).all()
-    return render(request, 'shopping_list.html', {'models':models})
+    list_product_dic = {'list_and_product':{}}
+    list_models = Shopping_ListModel.objects.filter(user_id=user_id).all()
+    for list_name in list_models:
+        product_model = ProductModel.objects.filter(list_name=list_name).all()
+        if len(product_model) == 0:
+            list_product_dic['list_and_product'][list_name] = None
+        else:
+            list_product_dic['list_and_product'][list_name] = product_model
+    print(list_product_dic)
+    return render(request, 'stock/shopping_list.html', {'list_product_dic':list_product_dic})
 
 # 買い物リストを作成する
 def create_shopping_list_func(request):
@@ -36,37 +44,48 @@ def create_shopping_list_func(request):
 # 買い物リストに商品を追加
 def add_shopping_list_func(request):
     user_id = request.user
-    list_models = Shopping_ListModel.objects.filter(user_id=user_id).all()
-    product_model = ProductModel()
+    list_models = Shopping_ListModel.objects.filter(user_id=user_id).all().values()
     product_form = ProductForm(data=request.POST)
     list_choice = []
-    for a in list_models.values():
-        print(a['created_date'])
     # POST
     if request.method == 'POST':
         if product_form.is_valid():
-            # ShoppingListModelに登録後
-            list_models.filter(list_name=product_form)
+            # ShoppingListModelに登録
+            id = product_form.cleaned_data.get('list_name')
+            list_query = Shopping_ListModel.objects.filter(id=id).get()
+            name = product_form.cleaned_data.get('name')
+            quantity = product_form.cleaned_data.get('quantity')
+            new_product_model = ProductModel(list_name=list_query, name=name, quantity=quantity)
+            new_product_model.save()
             return redirect('add_shopping_list')
+        else:
+            return render(request, 'stock/add_shopping_list.html', {'Error':'Error'})
     # GET
     else:
         # セッションが存在する場合
         try:
             session = request.session['list_name']
-            list_choice.append((session,session))
+            list_models = Shopping_ListModel.objects.get(list_name=session)
+            list_choice.append((list_models.id,session))
             product_form.fields['list_name'].widget.choices = list_choice
             del request.session['list_name']
             return render(request, 'stock/add_shopping_list.html', {'forms':product_form})
 
         # セッションがない場合
         except KeyError:
-            # 作成済み買い物リストがあるか調べる
+            # 作成済み買い物リストがない時
             if len(list_models) == 0:
                 # 新しいリストを作成
                 return redirect('create_shopping_list')
+            
+            # 作成済み買い物リストが存在するとき
             else:
-                for a in list_models.values('list_name'):
-                    list_choice.append((a['list_name'], a['list_name']))
+                for a in list_models:
+                    list_choice.append((a['id'], a['list_name']))
                 # 買い物リストを選択
                 product_form.fields['list_name'].widget.choices = list_choice
                 return render(request, 'stock/add_shopping_list.html', {'forms':product_form})
+
+# 買い物リストを削除する
+def delete_shopping_list_func(request):
+    pass
