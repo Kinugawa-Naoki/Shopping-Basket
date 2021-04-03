@@ -7,18 +7,19 @@ from ..models.models_stock import Shopping_ListModel, ProductModel
 def how_to_usefunc(request):
     return render(request, 'how_to_use.html', {'some_data':'some_data'})
 
-# 買い物リストを表示する
-def shopping_listfunc(request):
+# すべての買い物リストを表示する
+def all_shopping_listfunc(request):
+    # useridが一致する買い物リストを取得
     user_id = request.user
-    list_product_dic = {'list_and_product':{}}
     list_models = Shopping_ListModel.objects.filter(user_id=user_id).all()
+    product_models = ProductModel.objects.filter(user_id=user_id).all()
+    list_product_dic = {}
     for list_name in list_models:
-        product_model = ProductModel.objects.filter(list_name=list_name).all()
-        if len(product_model) == 0:
-            list_product_dic['list_and_product'][list_name] = None
+        product_models = product_models.filter(list_name=list_name).all()
+        if len(product_models) == 0:
+            list_product_dic[list_name] = 'blank'
         else:
-            list_product_dic['list_and_product'][list_name] = product_model
-    print(list_product_dic)
+            list_product_dic[list_name] = product_models
     return render(request, 'stock/shopping_list.html', {'list_product_dic':list_product_dic})
 
 # 買い物リストを作成する

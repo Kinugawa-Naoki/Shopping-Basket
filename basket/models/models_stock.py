@@ -30,6 +30,9 @@ class ProductModel(models.Model):
         Shopping_ListModel,
         on_delete=models.CASCADE
         )
+    user_id = models.CharField(
+        max_length=100
+        )
     name = models.CharField(
         max_length=100
         )

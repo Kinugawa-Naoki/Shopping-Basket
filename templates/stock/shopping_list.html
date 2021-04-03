@@ -6,5 +6,48 @@
 
 
 {% block content %}
-
+<!--  リストを表示する  -->
+{% for list, product in list_product_dic.items %}
+    <div class="container mb-5">
+        <div class="alert alert-primary" role="alert">
+            <a href="#">リスト{{ forloop.counter }}：{{ list }}</a>
+        </div>
+    <!--  メモを表示する  -->
+    {% if list.memo == None %}
+        <p>メモ：なし</p>
+    {% else %}
+        <p>メモ：{{ list.memo }}</p>
+    {% endif %}
+    <!--  商品を表示する-->
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">名前</th>
+            <th scope="col">個数</th>
+          </tr>
+        </thead>
+        <tbody>
+        <!--  リストに商品がなかったとき，空の表示をする  -->
+        {% if product == 'blank' %}
+            <tr>
+              <th scope="row">-</th>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+        {% else %}
+        <!--  リストに商品があったとき，商品を表示する-->
+            {% for item in product %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity}}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <hr>
+{% endfor %}
 {% endblock content %}
